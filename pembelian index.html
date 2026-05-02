@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kedai Makan Online</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+    }
+
+    header {
+      background: linear-gradient(135deg, #ff7a00, #ff3d00);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 18px;
+    }
+
+    .container {
+      width: 90%;
+      margin: 30px auto;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .card h3 {
+      margin-bottom: 5px;
+      color: #222;
+    }
+
+    .harga {
+      color: #ff3d00;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    button {
+      background: #ff3d00;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background: #d93300;
+    }
+
+    .order-box {
+      background: white;
+      margin-top: 30px;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .order-box h2 {
+      margin-top: 0;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .total {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ff3d00;
+    }
+
+    .hapus {
+      background: #555;
+      margin-left: 10px;
+      padding: 5px 8px;
+      font-size: 12px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Kedai Makan Online</h1>
+    <p>Pesan makanan favoritmu dengan cepat dan mudah</p>
+  </header>
+
+  <div class="container">
+
+    <h2>Menu Favorit</h2>
+
+    <div class="menu">
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=500">
+        <h3>Nasi Goreng Gila</h3>
+        <p>Nasi goreng dengan topping lengkap dan pedas mantap.</p>
+        <p class="harga">Rp20.000</p>
+        <button onclick="tambahPesanan('Nasi Goreng Gila', 20000)">Tambah</button>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=500">
+        <h3>Nasi Gila</h3>
+        <p>Nasi putih dengan tumisan sosis, bakso, telur, dan sayur.</p>
+        <p class="harga">Rp18.000</p>
+        <button onclick="tambahPesanan('Nasi Gila', 18000)">Tambah</button>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=500">
+        <h3>Mi Nyemek</h3>
+        <p>Mi kuah kental pedas gurih, cocok dimakan malam hari.</p>
+        <p class="harga">Rp15.000</p>
+        <button onclick="tambahPesanan('Mi Nyemek', 15000)">Tambah</button>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500">
+        <h3>Es Teh</h3>
+        <p>Es teh manis segar.</p>
+        <p class="harga">Rp5.000</p>
+        <button onclick="tambahPesanan('Es Teh', 5000)">Tambah</button>
+      </div>
+
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=500">
+        <h3>Es Jeruk</h3>
+        <p>Es jeruk segar dengan rasa manis asam.</p>
+        <p class="harga">Rp7.000</p>
+        <button onclick="tambahPesanan('Es Jeruk', 7000)">Tambah</button>
+      </div>
+
+    </div>
+
+    <div class="order-box">
+      <h2>Keranjang Pesanan</h2>
+
+      <ul id="daftarPesanan"></ul>
+
+      <p class="total">Total: Rp<span id="totalHarga">0</span></p>
+
+      <h2>Data Pemesan</h2>
+
+      <label>Nama:</label>
+      <input type="text" id="nama" placeholder="Masukkan nama kamu">
+
+      <label>Alamat:</label>
+      <textarea id="alamat" placeholder="Masukkan alamat lengkap"></textarea>
+
+      <label>Catatan:</label>
+      <textarea id="catatan" placeholder="Contoh: pedas sedang, tanpa sayur, dll"></textarea>
+
+      <button onclick="kirimPesanan()">Pesan via WhatsApp</button>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2026 Kedai Makan Online</p>
+  </footer>
+
+  <script>
+    let pesanan = [];
+    let total = 0;
+
+    function tambahPesanan(namaMenu, harga) {
+      pesanan.push({ nama: namaMenu, harga: harga });
+      total += harga;
+      tampilkanPesanan();
+    }
+
+    function hapusPesanan(index) {
+      total -= pesanan[index].harga;
+      pesanan.splice(index, 1);
+      tampilkanPesanan();
+    }
+
+    function tampilkanPesanan() {
+      const daftar = document.getElementById("daftarPesanan");
+      const totalHarga = document.getElementById("totalHarga");
+
+      daftar.innerHTML = "";
+
+      pesanan.forEach((item, index) => {
+        daftar.innerHTML += `
+          <li>
+            ${item.nama} - Rp${item.harga.toLocaleString("id-ID")}
+            <button class="hapus" onclick="hapusPesanan(${index})">Hapus</button>
+          </li>
+        `;
+      });
+
+      totalHarga.innerText = total.toLocaleString("id-ID");
+    }
+
+    function kirimPesanan() {
+      const nama = document.getElementById("nama").value;
+      const alamat = document.getElementById("alamat").value;
+      const catatan = document.getElementById("catatan").value;
+
+      if (pesanan.length === 0) {
+        alert("Pilih menu dulu ya.");
+        return;
+      }
+
+      if (nama === "" || alamat === "") {
+        alert("Nama dan alamat wajib diisi.");
+        return;
+      }
+
+      let isiPesanan = "";
+      pesanan.forEach((item, index) => {
+        isiPesanan += `${index + 1}. ${item.nama} - Rp${item.harga.toLocaleString("id-ID")}%0A`;
+      });
+
+      const nomorWhatsApp = "6281335596115";
+
+      const pesan =
+        `Halo, saya mau pesan:%0A%0A` +
+        `${isiPesanan}%0A` +
+        `Total: Rp${total.toLocaleString("id-ID")}%0A%0A` +
+        `Nama: ${nama}%0A` +
+        `Alamat: ${alamat}%0A` +
+        `Catatan: ${catatan}`;
+
+      window.open(`https://wa.me/${nomorWhatsApp}?text=${pesan}`, "_blank");
+    }
+  </script>
+
+</body>
+</html>
